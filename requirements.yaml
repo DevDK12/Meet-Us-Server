@@ -1,0 +1,26 @@
+dep:
+  - dotenv
+  - express
+  - express-validator
+  - mongoose
+  - uuid
+  - validator
+  - colors
+  - cors
+  - morgan
+  - "socket.io"
+  - "express-async-errors"
+  - "http-status-codes"
+
+dev:
+  - "@types/node"
+  - "@types/colors"
+  - "@types/express"
+  - "@types/validator"
+  - "@types/cors"
+  - "@types/morgan"
+  - "@types/uuid"
+  - nodemon
+  - ts-node
+  - typescript
+  - concurrently
