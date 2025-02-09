@@ -2,6 +2,7 @@ import express, { json, Request, Response, NextFunction, urlencoded } from 'expr
 import morgan from 'morgan';
 import globalError from './middleware/globalError.js';
 import notFound from './middleware/notFound.js';
+import Session from './models/session.js';
 
 
 export {
@@ -14,4 +15,5 @@ export {
     globalError,
     notFound,
     NextFunction,
+    Session,
 }
