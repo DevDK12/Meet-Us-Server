@@ -1,9 +1,12 @@
 import {
-    express, json, urlencoded, Request, Response, morgan, globalError, notFound, NextFunction, Session,
+    express, json, urlencoded, Request, Response, morgan, globalError, notFound, NextFunction, Session, http, Server, cors, webRTCSignalingSocket, mongoConnect,
 } from './index.js';
 
 import dotenv from 'dotenv';
 dotenv.config({ path: './.env' });
+
+import { baseUrl, mongoUri, port } from './config/config.js';
+
 
 
 
@@ -11,8 +14,11 @@ dotenv.config({ path: './.env' });
 
 
 const app = express();
+app.use(cors());
 
+const server = http.createServer(app);
 
+const io = new Server(server, { cors: { origin: "*" } });
 
 
 app.use(json());
@@ -78,6 +84,16 @@ app.get("/api/v1/is-alive", async (req, res, next) => {
 });
 
 
+
+//_ Socket IO 
+app.use((req, res, next) => {
+    req.io = io;
+    return next();
+});
+
+webRTCSignalingSocket(io);
+
+
 //************************************************/
 
 
@@ -90,4 +106,10 @@ app.use('*', notFound);
 
 app.use(globalError);
 
-export default app;
+
+
+mongoConnect(process.env.MONGO_URI || '', 'meet_us', () => {
+    server.listen(port, () => {
+        console.log(`Server listening on ${baseUrl}/${port}/api/v1`);
+    })
+});

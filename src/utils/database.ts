@@ -19,7 +19,7 @@ export const pingDB = () => {
 
 
 const mongoConnect = async (url: string, dbName: string, server: () => void) => {
-
+    console.log('Mongodb URI : ', url);
     try {
         await mongoose.connect(url, {
             dbName,

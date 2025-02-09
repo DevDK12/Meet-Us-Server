@@ -20,6 +20,7 @@ dev:
   - "@types/cors"
   - "@types/morgan"
   - "@types/uuid"
+  - "@types/socket.io"
   - nodemon
   - ts-node
   - typescript

@@ -3,6 +3,12 @@ import morgan from 'morgan';
 import globalError from './middleware/globalError.js';
 import notFound from './middleware/notFound.js';
 import Session from './models/session.js';
+import { Server } from 'socket.io';
+import http from 'http';
+import cors from 'cors';
+import webRTCSignalingSocket from './controllers/sockets.js';
+import mongoConnect from './utils/database.js';
+
 
 
 export {
@@ -16,4 +22,9 @@ export {
     notFound,
     NextFunction,
     Session,
+    Server,
+    http,
+    cors,
+    webRTCSignalingSocket,
+    mongoConnect,
 }

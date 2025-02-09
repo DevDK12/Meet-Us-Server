@@ -9,10 +9,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "npx tsc -watch",
-    "dev": "tsc && concurrently \"tsc -w\" \"nodemon dist/server.js\"",
-    "prod": "SET NODE_ENV=production& tsc && concurrently \"npx tsc -w\" \"nodemon dist/server.js\"",
+    "dev": "tsc && concurrently \"tsc -w\" \"nodemon dist/app.js\"",
+    "prod": "SET NODE_ENV=production& tsc && concurrently \"npx tsc -w\" \"nodemon dist/app.js\"",
     "build": "npx tsc",
-    "start": "npx tsc && node dist/server.js",
+    "start": "npx tsc && node dist/app.js",
     "req-install": "npm install js-yaml --no-save && node install.js"
   },
   "devDependencies": {
@@ -21,6 +21,7 @@
     "@types/express": "^5.0.0",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.13.1",
+    "@types/socket.io": "^3.0.1",
     "@types/uuid": "^10.0.0",
     "@types/validator": "^13.12.2",
     "concurrently": "^9.1.2",
