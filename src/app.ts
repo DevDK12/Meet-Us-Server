@@ -1,5 +1,6 @@
 import {
-    express, json, urlencoded, Request, Response, morgan, globalError, notFound, NextFunction, Session, http, Server, cors, webRTCSignalingSocket, mongoConnect,
+    express, json, urlencoded, Request, Response, morgan, globalError, notFound, NextFunction, Session, http, cors, webRTCSignalingSocket, mongoConnect,
+    Server,
 } from './index.js';
 
 import dotenv from 'dotenv';
@@ -12,21 +13,27 @@ import { baseUrl, mongoUri, port } from './config/config.js';
 
 
 
-
 const app = express();
-app.use(cors());
-
-const server = http.createServer(app);
-
-const io = new Server(server, { cors: { origin: "*" } });
-
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
-
-
 app.use(morgan('dev'));
+app.use(cors());
 
+
+const server = http.createServer(app);
+
+const io = new Server(server, {
+    cors: { origin: "*" }
+});
+
+
+
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+    console.log(process.env.NODE_ENV === 'production' ? 'Production' : 'Development');
+    next();
+});
 
 
 
@@ -51,10 +58,19 @@ app.get('/api/v1', (_, res: Response) => {
 
 
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-    console.log(process.env.NODE_ENV === 'production' ? 'Production' : 'Development');
-    next();
+
+
+//******************** Socket *****************************/
+
+app.use((req, res, next) => {
+    req.io = io;
+    return next();
 });
+
+webRTCSignalingSocket(io);
+
+
+//********************************************************/
 
 
 
@@ -82,16 +98,6 @@ app.get("/api/v1/is-alive", async (req, res, next) => {
         next(error)
     }
 });
-
-
-
-//_ Socket IO 
-app.use((req, res, next) => {
-    req.io = io;
-    return next();
-});
-
-webRTCSignalingSocket(io);
 
 
 //************************************************/

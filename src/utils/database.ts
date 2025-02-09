@@ -19,8 +19,10 @@ export const pingDB = () => {
 
 
 const mongoConnect = async (url: string, dbName: string, server: () => void) => {
-    console.log('Mongodb URI : ', url);
     try {
+        if (url === '') {
+            throw new Error('MONGO_URI is not defined or empty');
+        }
         await mongoose.connect(url, {
             dbName,
         });
@@ -32,7 +34,7 @@ const mongoConnect = async (url: string, dbName: string, server: () => void) => 
         server();
     }
     catch (err) {
-        console.log('Connection to Mongodb failed')
+        console.log('Connection to Mongodb failed', err)
     }
 
 }
