@@ -2,9 +2,21 @@ import { Server } from "socket.io";
 import Session from "../models/session.js";
 
 
+//? Working : 
+//* Add a participant to session in db
+//* And then join socket to the room with sessionId (if empty room then create such room)
+
+//_ Socket 
+//* Socket is server side representation of client that emits event to server
+//* When client A connects to Server than Server creates a socket for client A to manage the connection
+//* When A_Socket.join(id) , server adds A to room with id
+//* When A leaves , there's no need to remove A from room , just update the db
+
+//* Socket.io maintains a list of connected clients and emits events to them when req
+
 const webRTCSignalingSocket = (io: Server) => {
     io.on("connection", (socket) => {
-        console.log("Server Socket created with id :", socket.id);
+        console.log("Socket for client created with id :", socket.id);
 
         socket.on("prepare-session", async ({ sessionId, userId }) => {
             console.log(`User ${userId} is preparing to join session ${sessionId}`);
